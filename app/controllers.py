@@ -4,9 +4,10 @@ from fastapi.responses import JSONResponse
 import tempfile
 import shutil
 from app.services import VideoAnalyzer
+from app.repository import save_analysis_result
 
 
-@opencv_app_router.post('/analyze')
+@opencv_app_router.post("/analyze")
 async def analyze_video(file: UploadFile = File()):
     """
     Загружает видеофайл, анализирует его, и возвращает список "нарушений".
@@ -20,11 +21,16 @@ async def analyze_video(file: UploadFile = File()):
         analyzer = VideoAnalyzer()
         violations = analyzer.analyze(temp_video_path)
 
-        return JSONResponse({
-            "status": "ok",
-            "file_name": file.filename,
-            "violations_found": len(violations),
-            "violations": violations
-        })
+        analysis_id = await save_analysis_result(file.filename, violations)
+
+        return JSONResponse(
+            {
+                "status": "ok",
+                "analysis_id": analysis_id,
+                "file_name": file.filename,
+                "violations_found": len(violations),
+                "violations": violations,
+            }
+        )
     except Exception as e:
         return JSONResponse({"status": "error", "message": str(e)}, status_code=500)

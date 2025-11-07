@@ -3,9 +3,9 @@ from uvicorn import run
 from app.controllers import opencv_app_router
 
 
-app = FastAPI(title='FastAPI + OpenCV Video Analyzer')
+app = FastAPI(title="FastAPI + OpenCV Video Analyzer")
 
-app.include_router(opencv_app_router, prefix='/opencv_app')
+app.include_router(opencv_app_router, prefix="/opencv_app")
 
 
 if __name__ == "__main__":

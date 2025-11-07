@@ -44,11 +44,13 @@ class VideoAnalyzer:
             movement = np.sum(zone) / 255
 
             if movement > 500:  # пороговое значение
-                violations.append({
-                    "frame": frame_count,
-                    "type": "movement_in_restricted_zone",
-                    "confidence": round(min(movement / 10000, 1.0), 2)
-                })
+                violations.append(
+                    {
+                        "frame": frame_count,
+                        "type": "movement_in_restricted_zone",
+                        "confidence": round(min(movement / 10000, 1.0), 2),
+                    }
+                )
 
             prev_gray = gray
 
