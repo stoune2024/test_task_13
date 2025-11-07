@@ -8,6 +8,7 @@ app = FastAPI(title="FastAPI + OpenCV Video Analyzer")
 app.include_router(opencv_app_router, prefix="/opencv_app")
 
 
+# Для локального запуска сервиса без Docker/Docker Compose
 if __name__ == "__main__":
     run(
         app="main:app",
