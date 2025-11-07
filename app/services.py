@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 from typing import List, Dict
+from prometheus_client import Counter, Summary
 
 
 class VideoAnalyzer:
@@ -56,3 +57,15 @@ class VideoAnalyzer:
 
         cap.release()
         return violations
+
+
+# --- 🔹 Метрики Prometheus ---
+VIDEOS_PROCESSED = Counter(
+    "videos_processed_total", "Количество успешно обработанных видео"
+)
+PROCESSING_TIME = Summary(
+    "video_processing_seconds", "Среднее время обработки одного видео"
+)
+PROCESSING_ERRORS = Counter(
+    "video_processing_errors_total", "Количество ошибок при обработке видео"
+)
